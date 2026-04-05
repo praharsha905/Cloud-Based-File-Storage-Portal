@@ -1,0 +1,133 @@
+﻿{% extends "base.html" %}
+{% block title %}Dashboard | CloudVault{% endblock %}
+
+{% block content %}
+<section class="card dashboard-hero" data-animate="up">
+  <div>
+    <p class="eyebrow">Storage Workspace</p>
+    <h1>Welcome back, {{ g.user['name'] }}</h1>
+    <p class="muted">
+      Manage your documents with a clean, reliable, and secure storage dashboard.
+      Everything in one place: uploads, sharing, and usage insights.
+    </p>
+  </div>
+
+  <div class="usage-panel">
+    <div class="usage-line">
+      <span>Used</span>
+      <strong>{{ used_bytes|filesize }}</strong>
+    </div>
+    <div class="usage-line">
+      <span>Available</span>
+      <strong>{{ (quota_bytes - used_bytes)|filesize }}</strong>
+    </div>
+    <div class="usage-line">
+      <span>Total Quota</span>
+      <strong>{{ quota_bytes|filesize }}</strong>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-bar" data-progress="{{ usage_percent }}"></div>
+    </div>
+    <p class="usage-caption">{{ usage_percent }}% of quota consumed</p>
+  </div>
+</section>
+
+<section class="stat-grid">
+  <article class="stat-card" data-animate="up" data-delay="0">
+    <p class="stat-label">Files Stored</p>
+    <p class="stat-value">{{ files|length }}</p>
+  </article>
+  <article class="stat-card" data-animate="up" data-delay="80">
+    <p class="stat-label">Active Links</p>
+    <p class="stat-value">{{ links|length }}</p>
+  </article>
+  <article class="stat-card" data-animate="up" data-delay="160">
+    <p class="stat-label">Plan Quota</p>
+    <p class="stat-value">{{ g.user['storage_quota_mb'] }} MB</p>
+  </article>
+</section>
+
+<section class="dashboard-grid">
+  <article class="card" data-animate="up">
+    <h2>Upload New File</h2>
+    <form method="post" action="{{ url_for('upload_file') }}" enctype="multipart/form-data" class="stack-form">
+      <label for="dashboard-file-input">Choose a file</label>
+      <input id="dashboard-file-input" class="file-input" type="file" name="file" required data-file-input data-file-target="dashboard-file-name" />
+      <p id="dashboard-file-name" class="file-picked muted" data-file-name>No file selected.</p>
+      <small class="muted">Maximum upload size is 25 MB. Supported formats include documents, images, zip, csv, json, and mp4.</small>
+      <button class="btn btn-primary" type="submit">Upload File</button>
+    </form>
+  </article>
+
+  <article class="card" data-animate="up" data-delay="80">
+    <h2>Recent Share Links</h2>
+    {% if links %}
+      <ul class="share-list">
+        {% for link in links %}
+          {% set share_url = url_for('shared_file', token=link['token'], _external=True) %}
+          <li class="share-item">
+            <div>
+              <p class="share-file">{{ link['original_name'] }}</p>
+              <code class="share-url">{{ share_url }}</code>
+              <p class="muted">Expires on {{ link['expires_at'][:19].replace('T', ' ') }} UTC</p>
+            </div>
+            <button type="button" class="btn btn-mini btn-secondary" data-copy-text="{{ share_url }}">Copy</button>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="muted">No active links yet. Share a file to generate a secure public URL.</p>
+    {% endif %}
+  </article>
+</section>
+
+<section class="card" data-animate="up" data-delay="120">
+  <h2>Your Files</h2>
+  {% if files %}
+    <div class="table-wrap">
+      <table class="file-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Size</th>
+            <th>Uploaded</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for file in files %}
+            <tr>
+              <td class="name-cell">{{ file['original_name'] }}</td>
+              <td>{{ file['mime_type'] or '-' }}</td>
+              <td>{{ file['size_bytes']|filesize }}</td>
+              <td>{{ file['uploaded_at'][:19].replace('T', ' ') }}</td>
+              <td>
+                <div class="table-actions">
+                  <a class="btn btn-mini btn-secondary" href="{{ url_for('download_file', file_id=file['id']) }}">Download</a>
+
+                  <form method="post" action="{{ url_for('share_file', file_id=file['id']) }}" class="inline-form share-form">
+                    <select name="expires_days" aria-label="Link expiry">
+                      <option value="1">1 day</option>
+                      <option value="7" selected>7 days</option>
+                      <option value="14">14 days</option>
+                      <option value="30">30 days</option>
+                    </select>
+                    <button class="btn btn-mini" type="submit">Share</button>
+                  </form>
+
+                  <form method="post" action="{{ url_for('delete_file', file_id=file['id']) }}" class="inline-form" onsubmit="return confirm('Delete this file?');">
+                    <button class="btn btn-mini btn-danger" type="submit">Delete</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p class="muted">No files uploaded yet. Use the upload form above to get started.</p>
+  {% endif %}
+</section>
+{% endblock %}

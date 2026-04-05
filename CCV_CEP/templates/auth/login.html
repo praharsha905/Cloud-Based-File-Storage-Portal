@@ -1,0 +1,40 @@
+﻿{% extends "base.html" %}
+{% block title %}Login | CloudVault{% endblock %}
+{% block body_class %}auth-page{% endblock %}
+
+{% block content %}
+<section class="auth-layout">
+  <aside class="card auth-aside" data-animate="right">
+    <p class="eyebrow">Secure Access</p>
+    <h1>Sign in to your workspace</h1>
+    <p class="muted">
+      CloudVault keeps your files organized and instantly accessible with a professional cloud workflow.
+    </p>
+    <ul class="auth-points">
+      <li>Personal dashboard with quota insights</li>
+      <li>Fast upload, download, and delete actions</li>
+      <li>One-click expiring share links</li>
+    </ul>
+  </aside>
+
+  <article class="card auth-form-card" data-animate="left">
+    <h2>Welcome back</h2>
+    <p class="muted">Log in to continue managing your files.</p>
+
+    <form method="post" class="stack-form">
+      <label for="email">Email Address</label>
+      <input id="email" type="email" name="email" placeholder="you@example.com" required />
+
+      <label for="password">Password</label>
+      <div class="password-wrap">
+        <input id="password" type="password" name="password" minlength="8" placeholder="Enter password" required />
+        <button class="password-toggle" type="button" data-toggle-password="password">Show</button>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+
+    <p class="muted auth-meta">No account yet? <a href="{{ url_for('register') }}">Create one here</a>.</p>
+  </article>
+</section>
+{% endblock %}

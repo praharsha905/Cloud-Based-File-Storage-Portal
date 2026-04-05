@@ -1,0 +1,21 @@
+﻿{% extends "base.html" %}
+{% block title %}Shared File | CloudVault{% endblock %}
+
+{% block content %}
+<section class="card shared-card" data-animate="up">
+  {% if link and not is_expired %}
+    <p class="eyebrow">Secure Shared File</p>
+    <h1>{{ link['original_name'] }}</h1>
+    <p class="muted">Shared by {{ link['owner_name'] }} • Expires {{ link['expires_at'][:19].replace('T', ' ') }} UTC</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="{{ url_for('shared_download', token=link['token']) }}">Download File</a>
+      <a class="btn btn-secondary" href="{{ url_for('index') }}">Back to Home</a>
+    </div>
+  {% else %}
+    <p class="eyebrow">Unavailable Link</p>
+    <h1>Link invalid or expired</h1>
+    <p class="muted">This shared URL can no longer be used. Ask the owner to create a new share link.</p>
+    <a class="btn btn-secondary" href="{{ url_for('index') }}">Back to Home</a>
+  {% endif %}
+</section>
+{% endblock %}

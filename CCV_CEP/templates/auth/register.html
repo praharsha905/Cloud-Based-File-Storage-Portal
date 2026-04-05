@@ -1,0 +1,49 @@
+﻿{% extends "base.html" %}
+{% block title %}Register | CloudVault{% endblock %}
+{% block body_class %}auth-page{% endblock %}
+
+{% block content %}
+<section class="auth-layout">
+  <aside class="card auth-aside" data-animate="right">
+    <p class="eyebrow">Create Account</p>
+    <h1>Build your cloud workspace in minutes</h1>
+    <p class="muted">
+      Register once and immediately start storing, organizing, and sharing project files with a polished flow.
+    </p>
+    <ul class="auth-points">
+      <li>100 MB starter quota for each new account</li>
+      <li>Secure password hashing and session login</li>
+      <li>Professional dashboard with visual analytics</li>
+    </ul>
+  </aside>
+
+  <article class="card auth-form-card" data-animate="left">
+    <h2>Create your account</h2>
+    <p class="muted">Use accurate details for your project demo.</p>
+
+    <form method="post" class="stack-form">
+      <label for="name">Full Name</label>
+      <input id="name" type="text" name="name" placeholder="Your full name" required />
+
+      <label for="email">Email Address</label>
+      <input id="email" type="email" name="email" placeholder="you@example.com" required />
+
+      <label for="password">Password</label>
+      <div class="password-wrap">
+        <input id="password" type="password" name="password" minlength="8" placeholder="At least 8 characters" required />
+        <button class="password-toggle" type="button" data-toggle-password="password">Show</button>
+      </div>
+
+      <label for="confirm_password">Confirm Password</label>
+      <div class="password-wrap">
+        <input id="confirm_password" type="password" name="confirm_password" minlength="8" placeholder="Repeat password" required />
+        <button class="password-toggle" type="button" data-toggle-password="confirm_password">Show</button>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+
+    <p class="muted auth-meta">Already registered? <a href="{{ url_for('login') }}">Login here</a>.</p>
+  </article>
+</section>
+{% endblock %}

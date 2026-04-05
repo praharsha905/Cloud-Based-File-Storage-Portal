@@ -1,0 +1,75 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% block title %}CloudVault{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
+  <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+</head>
+<body class="{% block body_class %}{% endblock %}">
+  <div class="page-bg" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="{{ url_for('index') }}">
+        <span class="brand-mark">CV</span>
+        <span class="brand-text">CloudVault</span>
+      </a>
+
+      <nav class="nav-links">
+        {% if g.user %}
+          <a class="{% if request.endpoint == 'dashboard' %}active{% endif %}" href="{{ url_for('dashboard') }}">Dashboard</a>
+          <form method="post" action="{{ url_for('logout') }}" class="inline-form">
+            <button type="submit" class="link-btn">Logout</button>
+          </form>
+        {% else %}
+          <a class="{% if request.endpoint == 'login' %}active{% endif %}" href="{{ url_for('login') }}">Login</a>
+          <a class="btn btn-mini btn-primary" href="{{ url_for('register') }}">Register</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <section class="alerts" data-animate="up">
+          {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+          {% endfor %}
+        </section>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <section class="impress-panel" data-animate="up">
+    <div class="impress-inner">
+      <p class="eyebrow">Portal Highlights</p>
+      <div class="impress-grid">
+        <article class="impress-card">
+          <h3>Secure Authentication</h3>
+          <p>Hashed credentials with protected user sessions.</p>
+        </article>
+        <article class="impress-card">
+          <h3>Smart Sharing</h3>
+          <p>Temporary links with configurable expiry windows.</p>
+        </article>
+        <article class="impress-card">
+          <h3>Usage Insights</h3>
+          <p>Interactive storage meter with instant status feedback.</p>
+        </article>
+      </div>
+      <div class="impress-footer">
+        <span class="tip-chip" data-rotating-tip></span>
+        <span class="clock-chip">Live UTC: <strong data-live-time>--:--:--</strong></span>
+      </div>
+    </div>
+  </section>
+</body>
+</html>

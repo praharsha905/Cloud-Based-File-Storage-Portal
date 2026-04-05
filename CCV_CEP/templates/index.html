@@ -1,0 +1,34 @@
+﻿{% extends "base.html" %}
+{% block title %}CloudVault | Classic Cloud Storage Portal{% endblock %}
+
+{% block content %}
+<section class="card landing-hero" data-animate="up">
+  <p class="eyebrow">Cloud-Based File Storage Portal</p>
+  <h1>Professional file storage, built for your course project</h1>
+  <p class="muted">
+    CloudVault delivers a classic, trustworthy interface with modern file operations: secure sign-in,
+    uploads, storage tracking, and expiring share links.
+  </p>
+  <div class="hero-actions">
+    <a class="btn btn-primary" href="{{ url_for('register') }}">Create Account</a>
+    <a class="btn btn-secondary" href="{{ url_for('login') }}">Login</a>
+  </div>
+</section>
+
+<section class="feature-grid">
+  <article class="card" data-animate="up" data-delay="0">
+    <h3>Secure Authentication</h3>
+    <p class="muted">Register and login using hashed credentials for a safer workflow.</p>
+  </article>
+
+  <article class="card" data-animate="up" data-delay="80">
+    <h3>File Management</h3>
+    <p class="muted">Upload, download, and delete files with clean dashboard controls.</p>
+  </article>
+
+  <article class="card" data-animate="up" data-delay="160">
+    <h3>Share with Expiry</h3>
+    <p class="muted">Generate temporary public links for quick and controlled sharing.</p>
+  </article>
+</section>
+{% endblock %}
