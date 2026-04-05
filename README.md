@@ -22,11 +22,13 @@ Frontend: HTML, CSS, JavaScript
 Backend: Python (Flask/Django)
 Database: SQLite / MySQL
 Storage: Local File System / Cloud Storage
+
 📌 How It Works
 User registers and logs into the system
 Uploads files through the dashboard
 Files are stored securely on the server
 User can view, download, or delete files anytime
+
 🔒 Security Features
 Password-based authentication
 File validation before upload
@@ -36,11 +38,3 @@ Integration with cloud platforms like AWS S3
 File sharing between users
 Advanced search and filtering
 Encryption for enhanced security
-👨‍💻 Author
-
-Praharsha
-Aspiring AI/ML Engineer | Passionate about building real-world applications
-
-⭐ Note
-
-This project was developed as part of an academic course to demonstrate practical implementation of cloud-based storage systems.
